@@ -2,55 +2,142 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import SectionTitle from './SectionTitle.vue';
+
 const educationHistory = ref([]);
+
 onMounted(async () => {
-try { const response = await axios.get('http://localhost:3000/api/education'); educationHistory.value = response.data; } catch (error) { console.error(error); }
+  try {
+    const response = await axios.get('http://localhost:3000/api/education');
+    educationHistory.value = response.data;
+  } catch (error) {
+    console.error('Gagal memuat data pendidikan:', error);
+  }
 });
 </script>
+
 <template>
-  <section id="pendidikan" class="py-20 bg-white">
+  <section id="pendidikan" class="py-20 bg-transparent">
     <div class="container mx-auto px-6">
       <SectionTitle title="Riwayat Pendidikan" />
-      <div class="relative">
-        <div class="absolute h-full border-r-2 border-gray-300" style="left: 50%;"></div>
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
 
-        <div v-for="(edu, index) in educationHistory" :key="edu.id" class="mb-8 flex justify-between items-center w-full">
+        <div v-for="(edu, index) in educationHistory" :key="edu.id" class="timeline-item">
 
-          <div v-if="index % 2 === 0" class="w-full flex items-center">
-            <div class="w-1/2 pr-8 text-right">
-              <a :href="edu.link" target="_blank" rel="noopener noreferrer" class="group inline-block">
-                <p class="font-semibold text-blue-600">{{ edu.period }}</p>
-                <div class="flex items-center justify-end gap-4 mt-1">
-                  <h3 class="text-2xl font-bold text-gray-800 transition-colors group-hover:text-blue-600">{{ edu.institution }}</h3>
-                  <img :src="edu.image" :alt="edu.institution + ' logo'" class="w-20 h-20 object-contain rounded-lg bg-white p-1 shadow-md">
+          <div class="timeline-content-container" :class="[index % 2 === 0 ? 'left' : 'right']">
+            <div class="timeline-dot"></div>
+
+            <a :href="edu.link" target="_blank" rel="noopener noreferrer" class="timeline-card">
+              <div class="flex items-center gap-4">
+                <img :src="edu.image" :alt="edu.institution + ' logo'" class="w-16 h-16 object-contain p-1 bg-white rounded-md shadow-sm flex-shrink-0">
+
+                <div class="flex-1">
+                  <p class="font-semibold text-blue-600 text-sm">{{ edu.period }}</p>
+                  <h3 class="text-xl font-bold text-gray-800">{{ edu.institution }}</h3>
+                  <p class="text-gray-600">{{ edu.major }}</p>
                 </div>
-                <p class="text-gray-600 mt-1">{{ edu.major }}</p>
-              </a>
-            </div>
-            <div class="w-1/2 flex justify-start">
-              <div class="w-4 h-4 bg-blue-600 rounded-full z-10"></div>
-            </div>
+              </div>
+            </a>
           </div>
-
-          <div v-else class="w-full flex items-center">
-            <div class="w-1/2 flex justify-end">
-              <div class="w-4 h-4 bg-blue-600 rounded-full z-10"></div>
-            </div>
-            <div class="w-1/2 pl-8 text-left">
-              <a :href="edu.link" target="_blank" rel="noopener noreferrer" class="group inline-block">
-                <p class="font-semibold text-blue-600">{{ edu.period }}</p>
-                <div class="flex items-center justify-start gap-4 mt-1">
-                  <img :src="edu.image" :alt="edu.institution + ' logo'" class="w-25 h-10 object-contain rounded-lg bg-white p-1 shadow-md">
-                  <h3 class="text-2xl font-bold text-gray-800 transition-colors group-hover:text-blue-600">{{ edu.institution }}</h3>
-                </div>
-                <p class="text-gray-600 mt-1">{{ edu.major }}</p>
-              </a>
-            </div>
-          </div>
-
-          
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.timeline-container {
+  position: relative;
+  margin-top: 3rem;
+}
+
+
+.timeline-line {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: 2px;
+  background-color: #dbeafe;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.timeline-content-container {
+  position: relative;
+  width: 50%;
+  padding: 0 2rem;
+}
+
+
+.timeline-content-container.left {
+  text-align: right;
+  margin-right: auto;
+}
+.timeline-content-container.left .flex {
+  flex-direction: row-reverse;
+}
+
+
+.timeline-content-container.right {
+  margin-left: auto;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 1.25rem;
+  z-index: 10;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: white;
+  border: 4px solid #3b82f6;
+  border-radius: 50%;
+}
+
+.timeline-content-container.left .timeline-dot {
+  right: -0.625rem;
+}
+.timeline-content-container.right .timeline-dot {
+  left: -0.625rem;
+}
+
+.timeline-card {
+
+  @apply inline-block p-4 md:p-6 bg-white rounded-xl shadow-lg border border-gray-100 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl;
+  max-width: 420px;
+  width: 100%;
+}
+
+
+@media (max-width: 767px) {
+  .timeline-line {
+    left: 10px;
+    transform: translateX(0);
+  }
+
+  .timeline-content-container,
+  .timeline-content-container.left,
+  .timeline-content-container.right {
+    width: 100%;
+    margin-left: 0;
+    padding-left: 45px;
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .timeline-content-container.left .flex,
+  .timeline-content-container.right .flex {
+    flex-direction: row;
+  }
+
+  .timeline-dot,
+  .timeline-content-container.left .timeline-dot,
+  .timeline-content-container.right .timeline-dot {
+    left: 2px; 
+  }
+}
+</style>
