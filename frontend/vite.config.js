@@ -13,8 +13,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  // TAMBAHKAN BLOK INI
-  build: {
-    outDir: '../dist',
-  },
 })
