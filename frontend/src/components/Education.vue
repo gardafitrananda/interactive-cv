@@ -3,7 +3,31 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import SectionTitle from './SectionTitle.vue';
 
-const educationHistory = ref([]);
+const educationHistory = ref([
+  {
+    id: 1,
+    period: '2023 - Sekarang',
+    institution: 'Universitas Amikom Yogyakarta',
+    major: 'S1 Informatika',
+    link: 'https://home.amikom.ac.id/',
+    image: '/amikLogo.png'
+  },
+  {
+    id: 2,
+    period: '2020 - 2023',
+    institution: 'MAN 2 Yogyakarta',
+    major: 'MIPA',
+    link: 'https://man2yogyakarta.sch.id/',
+    image: 'https://man2yogyakarta.sch.id/public/img/konfigurasi/logo/default.png'
+  },
+  {
+    id: 3,
+    period: '2017 - 2020',
+    institution: 'SMPIT BIAS Yogyakarta',
+    link: 'https://sekolahbias.sch.id/smp/',
+    image: '/smp.png'
+  },
+]);
 const API_URL = import.meta.env.PROD ? '/api/education' :
 'http://localhost:3000/api/education';
 onMounted(async () => {
@@ -14,6 +38,7 @@ educationHistory.value = response.data;
 console.error('Gagal mengambil data pendidikan:', error);
 }
 });
+
 </script>
 
 <template>
