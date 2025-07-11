@@ -3,7 +3,15 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import SectionTitle from './SectionTitle.vue';
 
-const projects = ref([]);
+const projects = ref([
+   {
+    title: 'Santapin',
+    image: 'Dapur.jpeg',
+    description: 'Platform e-commerce dengan fitur keranjang belanja.',
+    tech: ['Vue.js', 'Larravel', 'MySQL'],
+    link: 'https://github.com/EgidiusDicky/Santapin'
+  },
+]);
 const API_URL = import.meta.env.PROD ? '/api/projects' :
 'http://localhost:3000/api/projects';
 onMounted(async () => {

@@ -3,7 +3,16 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import SectionTitle from './SectionTitle.vue';
 
-const skills = ref([]);
+const skills = ref([
+  { name: 'Vue.js' },
+  { name: 'JavaScript' },
+  { name: 'Tailwind CSS' },
+  { name: 'Node.js' },
+  { name: 'PostgreSQL' },
+  { name: 'Express.js' },
+  { name: 'Git & GitHub' },
+  { name: 'HTML5 & CSS3' }
+]);
 const API_URL = import.meta.env.PROD ? '/api/skills' : 'http://localhost:3000/api/skills';
 onMounted(async () => {
   try {
