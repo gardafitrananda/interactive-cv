@@ -5,7 +5,7 @@ const educationHistory = [
     institution: 'Universitas Amikom Yogyakarta',
     major: 'S1 Informatika',
     link: 'https://home.amikom.ac.id/',
-    image: 'amikLogo.png'
+    image: '/amikLogo.png'
   },
    {
     id: 2,
@@ -21,7 +21,7 @@ const educationHistory = [
     institution: 'SMPIT BIAS Yogyakarta',
     //major: 'MIPA',
     link: 'https://sekolahbias.sch.id/smp/',
-    image: 'smp.png' 
+    image: '/smp.png' 
   },
 ];
 
