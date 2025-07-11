@@ -4,14 +4,15 @@ import axios from 'axios';
 import SectionTitle from './SectionTitle.vue';
 
 const educationHistory = ref([]);
-
+const API_URL = import.meta.env.PROD ? '/api/education' :
+'http://localhost:3000/api/education';
 onMounted(async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/api/education');
-    educationHistory.value = response.data;
-  } catch (error) {
-    console.error('Gagal memuat data pendidikan:', error);
-  }
+try {
+const response = await axios.get(API_URL);
+educationHistory.value = response.data;
+} catch (error) {
+console.error('Gagal mengambil data pendidikan:', error);
+}
 });
 </script>
 
@@ -137,7 +138,7 @@ onMounted(async () => {
   .timeline-dot,
   .timeline-content-container.left .timeline-dot,
   .timeline-content-container.right .timeline-dot {
-    left: 2px; 
+    left: 2px;
   }
 }
 </style>
